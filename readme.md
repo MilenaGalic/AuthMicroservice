@@ -1,21 +1,35 @@
-# Lumen PHP Framework
-
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
+# AuthMicroservice Boilerplate Project
 [![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+AuthMicroservice is boilerplate code for REST service that handles authentication and authorization for users. The service provides the following functionality, provided as API endpoints:
 
-## Official Documentation
+Authentication:
+* Authenticate a user (with a password), create a session and return a session token (should be a JWT token)
+* Validate a session token 
+* Close a session
 
-Documentation for the framework can be found on the [Lumen website](http://lumen.laravel.com/docs).
+Authorization:
+* Retrieve permissions for a user + session combination
+* Grant and revoke permissions for users
+* Authorize endpoint that responds to "can user X execute action Y"
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+## Implementation
+
+* PHP framework Lumen
+* MySQL with Eloquent as a ORM
+* Each distinct functionality as a separate API endpoint
+* Sessions (and their tokens) as well as granted permissions are be saved in a database
+
+
+## Additional features
+
+* Scripts for creating database
+* Scripts for quick database seeding
+
 
 ## License
 
 The Lumen framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+JWT for Lumen implementation from [tymondesigns/jwt-auth](https://github.com/tymondesigns/jwt-auth)
+
