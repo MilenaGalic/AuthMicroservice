@@ -33,3 +33,6 @@ Authorization:
 The Lumen framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
 JWT for Lumen implementation from [tymondesigns/jwt-auth](https://github.com/tymondesigns/jwt-auth)
 
+## Examples
+
+For now, all endpoint test are stored within [AuthMicroservice Postman collection](https://www.getpostman.com/collections/9d5747ce1fa075c2b0d7). These examples are mapped to local environment setup at localhost:8000 with api prefix "api/v1".
