@@ -29,10 +29,26 @@ class UserController extends Controller
         $user->password = Hash::make($request->request->get('password'));
 
         $user->save();
-        
+
         return response()->json([
              'message' => 'user_created',
              'data' => response()->json($user)
+        ]);
+    }
+
+    public function deleteUser(Request $request, $id)
+    {
+        $user = User::find($id);
+        $user->delete();
+
+        $data = array(
+            "user_id" => $id,
+            "token" => "User's token has been automatically revoked."
+        );
+
+        return response()->json([
+            'message' => 'user_deleted',
+            'data' => response()->json($data)
         ]);
     }
 }
