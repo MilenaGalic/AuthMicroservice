@@ -21,5 +21,6 @@ $router->group(['prefix' => 'api/v1'], function($router)
 	$router->group(['middleware' => 'auth:api'], function($router)
 	{
 	    $router->GET('/auth/user', 'AuthController@authenticateUser');
+	    $router->GET('/auth/invalidate', 'AuthController@invalidateToken');
 	});
 });

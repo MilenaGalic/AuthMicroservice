@@ -56,5 +56,12 @@ class AuthController extends Controller
         ]);
     }
 
+    public function invalidateToken() {
+        $token = JWTAuth::parseToken();
+        // var_dump($token);
+        $token->invalidate();
+        return new JsonResponse(['message' => 'token_invalidated']);
+    }
+
 
 }
