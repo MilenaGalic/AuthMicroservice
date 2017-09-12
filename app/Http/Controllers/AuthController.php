@@ -3,24 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
-use Tymon\JWTAuth\JWTAuth;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Exception\HttpResponseException;
+
 
 class AuthController extends Controller
 {
-    /**
-     * @var \Tymon\JWTAuth\JWTAuth
-     */
-    protected $jwt;
 
-    public function __construct(JWTAuth $jwt)
-    {
-        $this->jwt = $jwt;
-    }
-
-    public function loginPost(Request $request)
+    public function login(Request $request)
     {
         $this->validate($request, [
             'email'    => 'required|email|max:255',
@@ -28,7 +24,7 @@ class AuthController extends Controller
         ]);
 
         try {
-            if (! $token = $this->jwt->attempt($request->only('email', 'password'))) {
+            if (! $token = JWTAuth::attempt($request->only('email', 'password'))) {
                 return response()->json(['user_not_found'], 404);
             }
         } catch (TokenExpiredException $e) {
@@ -39,6 +35,26 @@ class AuthController extends Controller
             return response()->json(['token_absent' => $e->getMessage()], $e->getStatusCode());
         }
 
-        return response()->json(compact('token'));
+        return $this->generateToken($token);       
     }
+
+    public function authenticateUser()
+    {
+        return response()->json([
+            'message' => 'authenticated_user',
+            'data' => JWTAuth::parseToken()->authenticate()
+        ]);
+    }
+
+    public function generateToken($token)
+    {
+         return new JsonResponse([
+            'message' => 'token_generated',
+            'data' => [
+                'token' => $token,
+            ]
+        ]);
+    }
+
+
 }

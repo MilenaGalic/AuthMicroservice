@@ -13,8 +13,13 @@
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
-
-  
 });
 
-$router->POST('/auth/login', 'AuthController@loginPost');
+$router->group(['prefix' => 'api/v1'], function($router) 
+{
+	$router->POST('/auth/login', 'AuthController@login');
+	$router->group(['middleware' => 'auth:api'], function($router)
+	{
+	    $router->GET('/auth/user', 'AuthController@authenticateUser');
+	});
+});

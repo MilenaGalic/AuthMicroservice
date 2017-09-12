@@ -26,8 +26,6 @@ $app = new Laravel\Lumen\Application(
 $app->withFacades();
 $app->withEloquent();
 
-$app->register(App\Providers\AuthServiceProvider::class);
-$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -60,13 +58,13 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
-// ]);
 
  $app->routeMiddleware([
-     'auth' => App\Http\Middleware\Authenticate::class,
- ]);
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
+
+$app->register(App\Providers\AuthServiceProvider::class);
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -99,5 +97,9 @@ $app->router->group([
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
+
+
+$app->alias('cache', 'Illuminate\Cache\CacheManager');
+$app->alias('auth', 'Illuminate\Auth\AuthManager');
 
 return $app;
