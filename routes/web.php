@@ -22,5 +22,7 @@ $router->group(['prefix' => 'api/v1'], function($router)
 	{
 	    $router->GET('/auth/user', 'AuthController@authenticateUser');
 	    $router->GET('/auth/invalidate', 'AuthController@invalidateToken');
+	    $router->GET('/auth/refresh', 'AuthController@refreshToken');
+	    $router->POST('/user/add', 'UserController@createUser');
 	});
 });

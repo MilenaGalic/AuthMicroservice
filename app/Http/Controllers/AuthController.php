@@ -63,5 +63,15 @@ class AuthController extends Controller
         return new JsonResponse(['message' => 'token_invalidated']);
     }
 
+    public function refreshToken() {
+        $token = JWTAuth::parseToken();
+        return new JsonResponse([
+            'message' => 'token_refreshed',
+            'data' => [
+                'token' => $token->refresh(),
+            ]
+        ]);
+    }
+
 
 }
