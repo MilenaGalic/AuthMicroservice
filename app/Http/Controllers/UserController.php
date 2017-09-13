@@ -51,4 +51,18 @@ class UserController extends Controller
             'data' => response()->json($data)
         ]);
     }
+
+    public function getUser(Request $request, $id)
+    {
+        $user = User::find($id);
+        /* 
+            Once we introduce Permissions (or Roles/Permissions)
+            this part will be updated, in order to include
+            information about permissions/roles to a getUser info.
+         */
+        return response()->json([
+            'message' => 'user_viewed',
+            'data' => response()->json($user)
+        ]);
+    }
 }
