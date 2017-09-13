@@ -17,3 +17,10 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->email,
     ];
 });
+
+$factory->define(App\TokenBlacklist::class, function (Faker\Generator $faker) {
+    return [
+        'jti' => $faker->text,
+        'revocation_reason' => $faker->text,
+    ];
+});
