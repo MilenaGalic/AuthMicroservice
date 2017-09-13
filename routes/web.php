@@ -28,5 +28,6 @@ $router->group(['prefix' => 'api/v1'], function($router)
 	    $router->GET('/users/{id}/view', 'UserController@getUser');
 	    $router->GET('/users/index', 'UserController@getUsers');
 	    $router->GET('/blacklists/tokens', 'AuthController@getTokenBlacklist');
+	    $router->GET('/blacklists/tokens/{jti}/check', 'AuthController@isTokenBlacklisted');
 	});
 });

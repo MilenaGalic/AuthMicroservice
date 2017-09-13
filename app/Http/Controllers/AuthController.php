@@ -102,4 +102,20 @@ class AuthController extends Controller
         ]);
     }
 
+    public function isTokenBlacklisted(Request $request, $jti)
+    {
+        if ($isTokenBlacklisted = TokenBlacklist::where('jti', $jti)->first())
+        {
+            return response()->json([
+                'message' => 'token_blacklisted',
+                'data' => response()->json($isTokenBlacklisted)
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'token_not_blacklisted',
+        ]);
+
+    }
+
 }
