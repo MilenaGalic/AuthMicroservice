@@ -92,4 +92,14 @@ class AuthController extends Controller
         ]);
     }
 
+    public function getTokenBlacklist(Request $request)
+    {
+        $tokenBlacklist = TokenBlacklist::get();
+
+        return response()->json([
+            'message' => 'token_blacklist',
+            'data' => response()->json($tokenBlacklist)
+        ]);
+    }
+
 }
