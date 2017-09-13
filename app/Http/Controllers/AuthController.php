@@ -84,6 +84,12 @@ class AuthController extends Controller
     }
 
     public function blacklistToken($jti, $revocationReason) {
+
+        /*
+         I should add appropriate error handling here! 
+         Double insertion of unique for example! :) c c c ....
+         */
+
         DB::table('token_blacklist')->insert([
             'jti' => $jti,
             'revocation_reason' => $revocationReason,
@@ -115,7 +121,15 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'token_not_blacklisted',
         ]);
+    }
 
+    public function createTokenBlacklistEntry(Request $request, $jti)
+    {
+        // Question2MySelf: Should this function also include token REVOKING or simply add it to blacklist?! :) hmm...
+        $this->blacklistToken($jti, 'Token blacklisted by API endpoint.');
+        return response()->json([
+            'message' => 'token_blacklisted_by_API',
+        ]);
     }
 
 }

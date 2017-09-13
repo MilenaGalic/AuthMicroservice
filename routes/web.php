@@ -29,5 +29,6 @@ $router->group(['prefix' => 'api/v1'], function($router)
 	    $router->GET('/users/index', 'UserController@getUsers');
 	    $router->GET('/blacklists/tokens', 'AuthController@getTokenBlacklist');
 	    $router->GET('/blacklists/tokens/{jti}/check', 'AuthController@isTokenBlacklisted');
+	    $router->POST('/blacklists/tokens/{jti}/add', 'AuthController@createTokenBlacklistEntry');
 	});
 });
