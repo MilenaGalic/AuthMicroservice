@@ -65,4 +65,14 @@ class UserController extends Controller
             'data' => response()->json($user)
         ]);
     }
+
+    public function getUsers(Request $request)
+    {
+        $users = User::get();
+
+        return response()->json([
+            'message' => 'users_index',
+            'data' => response()->json($users)
+        ]);
+    }
 }

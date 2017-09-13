@@ -26,5 +26,6 @@ $router->group(['prefix' => 'api/v1'], function($router)
 	    $router->POST('/users/add', 'UserController@createUser');
 	    $router->DELETE('/users/{id}/delete', 'UserController@deleteUser');
 	    $router->GET('/users/{id}/view', 'UserController@getUser');
+	    $router->GET('/users/index', 'UserController@getUsers');
 	});
 });
