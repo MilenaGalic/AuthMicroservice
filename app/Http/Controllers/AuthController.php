@@ -12,6 +12,8 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exception\HttpResponseException;
 
+use DB;
+use App\TokenBlacklist;
 
 class AuthController extends Controller
 {
@@ -58,13 +60,21 @@ class AuthController extends Controller
 
     public function invalidateToken() {
         $token = JWTAuth::parseToken();
-        // var_dump($token);
-        $token->invalidate();
-        return new JsonResponse(['message' => 'token_invalidated']);
+        $jti = $token->getPayload()['jti'];
+
+        if ($token->invalidate()) {
+             $this->blacklistToken($jti, 'Token invalidated.');
+             return new JsonResponse(['message' => 'token_invalidated']);
+        }
+        return new JsonResponse(['message' => 'token_does_not_exist']);
     }
 
     public function refreshToken() {
         $token = JWTAuth::parseToken();
+        $jti = $token->getPayload()['jti'];
+
+        $this->blacklistToken($jti, 'Token refreshed.');
+
         return new JsonResponse([
             'message' => 'token_refreshed',
             'data' => [
@@ -73,5 +83,13 @@ class AuthController extends Controller
         ]);
     }
 
+    public function blacklistToken($jti, $revocationReason) {
+        DB::table('token_blacklist')->insert([
+            'jti' => $jti,
+            'revocation_reason' => $revocationReason,
+            'created_at' => DB::raw('now()'),
+            'updated_at' => DB::raw('now()'),
+        ]);
+    }
 
 }
