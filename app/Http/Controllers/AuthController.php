@@ -36,7 +36,6 @@ class AuthController extends Controller
         } catch (JWTException $e) {
             return response()->json(['token_absent' => $e->getMessage()], $e->getStatusCode());
         }
-
         return $this->generateToken($token);       
     }
 

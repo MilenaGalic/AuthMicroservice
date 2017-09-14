@@ -20,15 +20,28 @@ $router->group(['prefix' => 'api/v1'], function($router)
 	$router->POST('/auth/login', 'AuthController@login');
 	$router->group(['middleware' => 'auth:api'], function($router)
 	{
-	    $router->GET('/auth/user', 'AuthController@authenticateUser');
-	    $router->GET('/auth/invalidate', 'AuthController@invalidateToken');
-	    $router->GET('/auth/refresh', 'AuthController@refreshToken');
-	    $router->POST('/users/add', 'UserController@createUser');
-	    $router->DELETE('/users/{id}/delete', 'UserController@deleteUser');
-	    $router->GET('/users/{id}/view', 'UserController@getUser');
-	    $router->GET('/users/index', 'UserController@getUsers');
-	    $router->GET('/blacklists/tokens', 'AuthController@getTokenBlacklist');
-	    $router->GET('/blacklists/tokens/{jti}/check', 'AuthController@isTokenBlacklisted');
-	    $router->POST('/blacklists/tokens/{jti}/add', 'AuthController@createTokenBlacklistEntry');
+		$router->group(['prefix' => 'auth'], function($router) 
+		{
+			$router->GET('/user', 'AuthController@authenticateUser');
+		    $router->GET('/invalidate', 'AuthController@invalidateToken');
+		    $router->GET('/refresh', 'AuthController@refreshToken');
+		});
+	    $router->group(['prefix' => 'users'], function($router) 
+		{ 
+			$router->POST('/add', 'UserController@createUser');
+		    $router->DELETE('/{id}/delete', 'UserController@deleteUser');
+		    $router->GET('/{id}/view', 'UserController@getUser');
+		    $router->GET('/index', 'UserController@getUsers');
+		});
+	   	$router->group(['prefix' => 'blacklists'], function($router) 
+		{  
+			$router->group(['prefix' => 'tokens'], function($router) 
+			{  
+				$router->GET('/', 'AuthController@getTokenBlacklist');
+	    		$router->GET('/{jti}/check', 'AuthController@isTokenBlacklisted');
+	    		$router->POST('/{jti}/add', 'AuthController@createTokenBlacklistEntry');
+			});
+		});
+	   
 	});
 });
