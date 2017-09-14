@@ -10,7 +10,7 @@ use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Hash;
 use App\User;
-
+use Illuminate\Database\QueryException;
 
 class UserController extends Controller
 {
@@ -38,8 +38,20 @@ class UserController extends Controller
 
     public function deleteUser(Request $request, $id)
     {
-        $user = User::find($id);
-        $user->delete();
+        if (! $user = User::find($id)) 
+        {
+            return response()->json([
+            'message' => 'non_existing_user',
+        ]);
+        }
+
+        try 
+        {
+           $user->delete();
+        }
+        catch (QueryException $e) {
+             return response()->json(['database_exception'], $e->getStatusCode());
+        }
 
         $data = array(
             "user_id" => $id,
