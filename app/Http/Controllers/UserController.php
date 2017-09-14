@@ -87,4 +87,22 @@ class UserController extends Controller
             'data' => response()->json($users)
         ]);
     }
+
+    public function editUser(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        // I just want to demostrate edit, so I'll just validate and update user's name
+        $this->validate($request, [
+            'name' => 'max:255',
+        ]);
+
+        $user->name = $request->request->get('name');
+        $user->save();
+
+        return response()->json([
+            'message' => 'user_updated',
+            'data' => response()->json($user)
+        ]);
+    }
 }

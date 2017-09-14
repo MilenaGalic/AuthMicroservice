@@ -63,6 +63,10 @@ $app->singleton(
     'auth' => App\Http\Middleware\Authenticate::class,
 ]);
 
+ $app->routeMiddleware([
+    'perm' => App\Http\Middleware\PermissionsMiddleware::class,
+]);
+
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 

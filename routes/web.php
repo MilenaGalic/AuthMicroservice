@@ -18,7 +18,7 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'api/v1'], function($router) 
 {
 	$router->POST('/auth/login', 'AuthController@login');
-	$router->group(['middleware' => 'auth:api'], function($router)
+	$router->group(['middleware' => 'auth:api|perm'], function($router)
 	{
 		$router->group(['prefix' => 'auth'], function($router) 
 		{
@@ -32,6 +32,7 @@ $router->group(['prefix' => 'api/v1'], function($router)
 		    $router->DELETE('/{id}/delete', 'UserController@deleteUser');
 		    $router->GET('/{id}/view', 'UserController@getUser');
 		    $router->GET('/index', 'UserController@getUsers');
+		    $router->PATCH('/{id}/edit','UserController@editUser');
 		});
 	   	$router->group(['prefix' => 'blacklists'], function($router) 
 		{  
