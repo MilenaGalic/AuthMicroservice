@@ -23,8 +23,8 @@ $router->group(['prefix' => 'api/v1'], function($router)
 		$router->group(['prefix' => 'auth'], function($router) 
 		{
 			$router->GET('/user', 'AuthController@authenticateUser');
-		    $router->GET('/invalidate', 'AuthController@invalidateToken');
-		    $router->GET('/refresh', 'AuthController@refreshToken');
+		    $router->GET('/invalidate', 'TokenController@invalidateToken');
+		    $router->GET('/refresh', 'TokenController@refreshToken');
 		});
 	    $router->group(['prefix' => 'users'], function($router) 
 		{ 
@@ -37,9 +37,9 @@ $router->group(['prefix' => 'api/v1'], function($router)
 		{  
 			$router->group(['prefix' => 'tokens'], function($router) 
 			{  
-				$router->GET('/', 'AuthController@getTokenBlacklist');
-	    		$router->GET('/{jti}/check', 'AuthController@isTokenBlacklisted');
-	    		$router->POST('/{jti}/add', 'AuthController@createTokenBlacklistEntry');
+				$router->GET('/', 'TokenController@getTokenBlacklist');
+	    		$router->GET('/{jti}/check', 'TokenController@isTokenBlacklisted');
+	    		$router->POST('/{jti}/add', 'TokenController@createTokenBlacklistEntry');
 			});
 		});
 	   
