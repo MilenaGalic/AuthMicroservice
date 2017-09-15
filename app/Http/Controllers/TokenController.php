@@ -12,7 +12,6 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exception\HttpResponseException;
 
-use DB;
 use App\TokenBlacklist;
 
 class TokenController extends Controller
@@ -20,6 +19,9 @@ class TokenController extends Controller
 
     public function generateToken($token)
     {
+        /*
+         Small wrapper method, additional work on token can be included here...
+         */
          return new JsonResponse([
             'message' => 'token_generated',
             'data' => [
@@ -54,19 +56,16 @@ class TokenController extends Controller
 
     public function blacklistToken($jti, $revocationReason) {
 
-        if($this->checkTokenBlacklistEntry($jti)) 
+        if((new tokenBlacklist())->exists($jti)) 
         {
             return new JsonResponse([
                 'message' => 'token_already_blacklisted',
             ]);
         }
 
-        DB::table('token_blacklist')->insert([
-            'jti' => $jti,
-            'revocation_reason' => $revocationReason,
-            'created_at' => DB::raw('now()'),
-            'updated_at' => DB::raw('now()'),
-        ]);
+        $tokenBlacklist = new TokenBlacklist();
+        $response = $tokenBlacklist->addToken($jti, $revocationReason);
+        // we can do additional error handling based on $response
 
         return new JsonResponse([
                 'message' => $revocationReason,
@@ -85,7 +84,8 @@ class TokenController extends Controller
 
     public function isTokenBlacklisted($jti)
     {
-        if ($this->checkTokenBlacklistEntry($jti)) {
+        $tokenBlacklist = new TokenBlacklist();
+        if ($tokenBlacklist->exists($jti)) {
             return response()->json([
                     'message' => 'token_blacklisted',
             ]);
@@ -102,13 +102,6 @@ class TokenController extends Controller
         return $this->blacklistToken($jti, 'token_blacklisted_by_api');
     }
 
-    private function checkTokenBlacklistEntry($jti) 
-    {
-        if ($isTokenBlacklisted = TokenBlacklist::where('jti', $jti)->first())
-        {
-            return true;
-        }
-        return false;
-    }
+   
 
 }
