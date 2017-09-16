@@ -40,12 +40,12 @@ For now, all endpoint test are stored within [AuthMicroservice Postman collectio
 ## Installation
 
 1. Clone this repository to your development/server machine
-2. Update /vendor directory with "composer update -vvv"
+2. Update /vendor directory with **"composer update -vvv"**
 3. Create .env file (from .env.example)
-4. Update .env file with APP_KEY
-5. Update .env file with DB_DATABASE, DB_USERNAME, DB_PASSWORD 
-6. Generate JWT_SECRET with "php artisan jwt:secret"
-7. Generate required databases with "php artisan migrate"
-8. Generate example data with "php artisan db:seed"
-9. Run application with "php -S localhost:8000 -t public" or other IP:PORT combination.
+4. Update .env file with **APP_KEY**
+5. Update .env file with **DB_DATABASE, DB_USERNAME, DB_PASSWORD** 
+6. Generate JWT_SECRET with **"php artisan jwt:secret"**
+7. Generate required databases with **"php artisan migrate"**
+8. Generate example data with **"php artisan db:seed"**
+9. Run application with **"php -S localhost:8000 -t public"** or other IP:PORT combination.
 
