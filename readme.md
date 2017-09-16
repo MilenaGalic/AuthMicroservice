@@ -36,3 +36,16 @@ JWT for Lumen implementation from [tymondesigns/jwt-auth](https://github.com/tym
 ## Examples
 
 For now, all endpoint test are stored within [AuthMicroservice Postman collection](https://www.getpostman.com/collections/9d5747ce1fa075c2b0d7). These examples are mapped to local environment setup at localhost:8000 with api prefix "api/v1".
+
+## Installation
+
+1. Clone this repository to your development/server machine
+2. Update /vendor directory with "composer update -vvv"
+3. Create .env file (from .env.example)
+4. Update .env file with APP_KEY
+5. Update .env file with DB_DATABASE, DB_USERNAME, DB_PASSWORD 
+6. Generate JWT_SECRET with "php artisan jwt:secret"
+7. Generate required databases with "php artisan migrate"
+8. Generate example data with "php artisan db:seed"
+9. Run application with "php -S localhost:8000 -t public" or other IP:PORT combination.
+
