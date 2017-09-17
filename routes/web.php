@@ -46,6 +46,7 @@ $router->group(['prefix' => 'api/v1'], function($router)
 		$router->group(['prefix' => 'permissions'], function($router) 
 		{  
 			$router->GET('/index', 'PermissionController@getPermissions');
+			$router->POST('/add', 'PermissionController@createPermission');
 		});
 	   
 	});

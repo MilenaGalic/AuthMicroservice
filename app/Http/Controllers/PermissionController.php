@@ -25,5 +25,24 @@ class PermissionController extends Controller
         ]);
     }
 
+    public function createPermission(Request $request) 
+    {
+
+        $this->validate($request, [
+            'name' => 'max:255|unique:permissions,name|required',
+            'description' => 'max:255'
+        ]);
+
+
+        $permission = new Permission ($request->all());
+
+        $permission->save();
+
+        return response()->json([
+             'message' => 'permission_created',
+             'data' => response()->json($permission)
+        ]);
+    }
+
 
 }
