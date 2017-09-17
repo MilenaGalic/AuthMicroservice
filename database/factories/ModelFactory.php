@@ -24,3 +24,10 @@ $factory->define(App\TokenBlacklist::class, function (Faker\Generator $faker) {
         'revocation_reason' => $faker->text,
     ];
 });
+
+$factory->define(App\Permission::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->text,
+        'description' => $faker->text,
+    ];
+});

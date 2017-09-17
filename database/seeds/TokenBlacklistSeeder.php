@@ -13,33 +13,34 @@ class TokenBlacklistSeeder extends Seeder
     public function run()
     {
         factory(App\TokenBlacklist::class)->create([
-        	'jti' => 'fake1-tRmhWLKwwfvdwwE6',
-        	'revocation_reason' => 'Faked revocation item'
+            'jti' => 'fake1-tRmhWLKwwfvdwwE6',
+            'revocation_reason' => 'Faked revocation item'
         ]);
 
         factory(App\TokenBlacklist::class)->create([
-        	'jti' => 'fake2-tRmhWLKwwfvdwwE6',
-        	'revocation_reason' => 'Faked revocation item'
+            'jti' => 'fake2-tRmhWLKwwfvdwwE6',
+            'revocation_reason' => 'Faked revocation item'
         ]);
 
         factory(App\TokenBlacklist::class)->create([
-        	'jti' => 'fake3-tRmhWLKwwfvdwwE6',
-        	'revocation_reason' => 'Faked revocation item'
+            'jti' => 'fake3-tRmhWLKwwfvdwwE6',
+            'revocation_reason' => 'Faked revocation item'
         ]);
 
         factory(App\TokenBlacklist::class)->create([
-        	'jti' => 'fake4-tRmhWLKwwfvdwwE6',
-        	'revocation_reason' => 'Faked revocation item'
+            'jti' => 'fake4-tRmhWLKwwfvdwwE6',
+            'revocation_reason' => 'Faked revocation item'
         ]);
 
         factory(App\TokenBlacklist::class)->create([
-        	'jti' => 'fake5-tRmhWLKwwfvdwwE6',
-        	'revocation_reason' => 'Faked revocation item'
+            'jti' => 'fake5-tRmhWLKwwfvdwwE6',
+            'revocation_reason' => 'Faked revocation item'
         ]);
 
         factory(App\TokenBlacklist::class)->create([
-        	'jti' => 'fake6-tRmhWLKwwfvdwwE6',
-        	'revocation_reason' => 'Faked revocation item'
-        ]);
+            'jti' => 'fake6-tRmhWLKwwfvdwwE6',
+            'revocation_reason' => 'Faked revocation item'
+        ])
+        
     }
 }
