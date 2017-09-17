@@ -42,5 +42,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
 
+    public function permissions()
+    {
+        return $this->belongsToMany('App\Permission');
+    }
 
 }

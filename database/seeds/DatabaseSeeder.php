@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(TokenBlacklistSeeder::class);
         $this->call(PermissionsTableSeeder::class);
+        $this->call(SuperAdminSeeder::class);
         Model::reguard();
     }
 }

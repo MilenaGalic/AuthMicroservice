@@ -40,7 +40,7 @@ class TokenBlacklistSeeder extends Seeder
         factory(App\TokenBlacklist::class)->create([
             'jti' => 'fake6-tRmhWLKwwfvdwwE6',
             'revocation_reason' => 'Faked revocation item'
-        ])
+        ]);
         
     }
 }
