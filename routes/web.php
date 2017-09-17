@@ -43,6 +43,10 @@ $router->group(['prefix' => 'api/v1'], function($router)
 	    		$router->POST('/{jti}/add', 'TokenController@createTokenBlacklistEntry');
 			});
 		});
+		$router->group(['prefix' => 'permissions'], function($router) 
+		{  
+			$router->GET('/index', 'PermissionController@getPermissions');
+		});
 	   
 	});
 });
