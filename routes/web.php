@@ -47,6 +47,7 @@ $router->group(['prefix' => 'api/v1'], function($router)
 		{  
 			$router->GET('/index', 'PermissionController@getPermissions');
 			$router->POST('/add', 'PermissionController@createPermission');
+			$router->DELETE('/{id}/delete', 'PermissionController@deletePermission');
 		});
 	   
 	});

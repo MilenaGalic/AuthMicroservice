@@ -44,5 +44,26 @@ class PermissionController extends Controller
         ]);
     }
 
+    public function deletePermission(Request $request, $id)
+    {
+        if (! $permission = Permission::find($id)) 
+        {
+            return response()->json([
+                'message' => 'non_existing_permission',
+            ]);
+        }
+
+        // first get affected users
+        $users_ids = $permission->getUserIdsByPermission($id);
+
+        // then delete with InnoDB cascade
+        $permission->delete();
+
+        return response()->json([
+            'message' => 'permission_deleted',
+            'UserIds_affected' => $users_ids
+        ]);
+    }
+
 
 }
