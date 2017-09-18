@@ -55,4 +55,16 @@ class Permission extends Model
       return true;
    }
 
+   // Antonym to 'Assign' ? :) dissociate, deallocate?
+   public function dissociateFromUser($uid, $pid)
+   {
+      try {
+         $permission = Permission::find($pid);
+         User::find($uid)->permissions()->detach($permission);
+      } catch (Illuminate\Database\QueryException $e) {
+         return false;
+      }
+      return true;
+   }
+
 }

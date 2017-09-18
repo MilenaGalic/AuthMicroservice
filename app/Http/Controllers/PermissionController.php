@@ -49,9 +49,7 @@ class PermissionController extends Controller
     {
         if (! $permission = Permission::find($id)) 
         {
-            return response()->json([
-                'message' => 'non_existing_permission',
-            ]);
+            return response()->json(['message' => 'non_existing_permission']);
         }
 
         // first get affected users
@@ -69,7 +67,6 @@ class PermissionController extends Controller
     public function getPermissionsByUid(Request $request, $uid)
     {
         $user = User::find($uid);
-
         $permissions = (new Permission())->getPermissionsForUser($user['id']);
 
         if (! $permissions->isEmpty()) {
@@ -79,16 +76,13 @@ class PermissionController extends Controller
             ]);
         }
 
-        return response()->json([
-                'message' => 'user_has_no_permissions'
-        ]);
+        return response()->json(['message' => 'user_has_no_permissions']);
 
     }
 
     public function hasUserPermission(Request $request, $uid, $pid)
     {
         $permission = new Permission();
-
         $permissionExists = $permission->existsForUser($uid, $pid);
 
         if ($permissionExists) {
@@ -98,9 +92,7 @@ class PermissionController extends Controller
             ]);
         }
 
-        return response()->json([
-                    'message' => 'user_doesnt_have_permission'
-        ]);
+        return response()->json(['message' => 'user_doesnt_have_permission']);
     }
 
     public function assignPermission(Request $request, $uid, $pid)
@@ -108,21 +100,29 @@ class PermissionController extends Controller
         $permission = new Permission();
 
         if ($permission->existsForUser($uid, $pid)) {
-            return response()->json([
-                    'message' => 'permission_already_exists'
-            ]);
+            return response()->json(['message' => 'permission_already_exists']);
         }
 
         if($permission->assignToUser($uid, $pid))
         {
-            return response()->json([
-                'message' => 'permission_assigned_to_user'
-            ]);
+            return response()->json(['message' => 'permission_assigned_to_user']);
         }
-        return response()->json([
-                'message' => 'permission_not_assigned_to_user'
-        ]);
+        return response()->json(['message' => 'permission_not_assigned_to_user']);
+    }
 
+    public function dissociatePermission(Request $request, $uid, $pid)
+    {
+        $permission = new Permission();
+
+        if (! $permission->existsForUser($uid, $pid)) {
+            return response()->json(['message' => 'permission_not_exists_for_user']);
+        }
+
+        if($permission->dissociateFromUser($uid, $pid))
+        {
+            return response()->json(['message' => 'permission_dissociated_from_user']);
+        }
+        return response()->json(['message' => 'permission_not_dissociated_from_user']);
     }
 
 }
