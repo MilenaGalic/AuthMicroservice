@@ -35,6 +35,7 @@ $router->group(['prefix' => 'api/v1'], function($router)
 		    $router->PATCH('/{id}/edit','UserController@editUser');
 		    $router->GET('/{uid}/permissions/index', 'PermissionController@getPermissionsByUid');
 		    $router->GET('/{uid}/permissions/{pid}/exists','PermissionController@hasUserPermission');
+		    $router->POST('/{uid}/permissions/{pid}/assign','PermissionController@assignPermission');
 		});
 	   	$router->group(['prefix' => 'blacklists'], function($router) 
 		{  

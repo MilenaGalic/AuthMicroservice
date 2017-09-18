@@ -87,27 +87,42 @@ class PermissionController extends Controller
 
     public function hasUserPermission(Request $request, $uid, $pid)
     {
-        $user = User::find($uid);
+        $permission = new Permission();
 
-        if (! $user) {
+        $permissionExists = $permission->existsForUser($uid, $pid);
+
+        if ($permissionExists) {
             return response()->json([
-                    'message' => 'user_does_not_exist'
+                    'message' => 'user_has_permission',
+                    'permission' => $pid
             ]);
         }
 
-        $permissions = (new Permission())->getPermissionsForUser($user['id']);
-
-        foreach ($permissions as $permission) {
-            if (($permission->permission_id) == $pid)
-                return response()->json([
-                    'message' => 'user_has_permission',
-                    'permission' => $permission->name
-                ]);
-        }
-        
         return response()->json([
                     'message' => 'user_doesnt_have_permission'
         ]);
+    }
+
+    public function assignPermission(Request $request, $uid, $pid)
+    {
+        $permission = new Permission();
+
+        if ($permission->existsForUser($uid, $pid)) {
+            return response()->json([
+                    'message' => 'permission_already_exists'
+            ]);
+        }
+
+        if($permission->assignToUser($uid, $pid))
+        {
+            return response()->json([
+                'message' => 'permission_assigned_to_user'
+            ]);
+        }
+        return response()->json([
+                'message' => 'permission_not_assigned_to_user'
+        ]);
+
     }
 
 }
