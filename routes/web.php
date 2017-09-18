@@ -33,6 +33,7 @@ $router->group(['prefix' => 'api/v1'], function($router)
 		    $router->GET('/{id}/view', 'UserController@getUser');
 		    $router->GET('/index', 'UserController@getUsers');
 		    $router->PATCH('/{id}/edit','UserController@editUser');
+		    $router->GET('/{uid}/permissions/index', 'PermissionController@getPermissionsByUid');
 		});
 	   	$router->group(['prefix' => 'blacklists'], function($router) 
 		{  

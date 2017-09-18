@@ -11,14 +11,25 @@ class Permission extends Model
  
    protected $fillable = ['name','description'];
 
-   public function getUserIdsByPermission($permission_id)
+   public function getUserIdsByPermission($permissionid)
    {
-   		$users_ids = DB::table('permission_user')
+   		$users = DB::table('permission_user')
    			->select('user_id')
-   			->where('permission_id', '=', $permission_id)
+   			->where('permission_id', '=', $permissionid)
    			->get();
    			
-   		return $users_ids;
+   		return $users;
+   }
+
+   public function getPermissionsForUser($userid) 
+   {
+      $permissions = DB::table('permission_user')
+            ->select('permission_id','name')
+            ->where('user_id', '=', $userid)
+            ->join('permissions', 'permissions.id', '=', 'permission_user.permission_id')
+            ->get();
+
+      return $permissions;
    }
 
 }

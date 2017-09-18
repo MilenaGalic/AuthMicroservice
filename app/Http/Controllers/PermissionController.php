@@ -10,6 +10,7 @@ use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Hash;
 use App\Permission;
+use App\User;
 use Illuminate\Database\QueryException;
 
 class PermissionController extends Controller
@@ -65,5 +66,23 @@ class PermissionController extends Controller
         ]);
     }
 
+    public function getPermissionsByUid(Request $request, $uid)
+    {
+        $user = User::find($uid);
+
+        $permissions = (new Permission())->getPermissionsForUser($user['id']);
+
+        if (! $permissions->isEmpty()) {
+            return response()->json([
+                'message' => 'user_has_permissions',
+                'data' => $permissions
+            ]);
+        }
+        
+        return response()->json([
+                'message' => 'user_has_no_permissions'
+        ]);
+
+    }
 
 }
