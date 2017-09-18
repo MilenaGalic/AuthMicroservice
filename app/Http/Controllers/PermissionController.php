@@ -78,11 +78,36 @@ class PermissionController extends Controller
                 'data' => $permissions
             ]);
         }
-        
+
         return response()->json([
                 'message' => 'user_has_no_permissions'
         ]);
 
+    }
+
+    public function hasUserPermission(Request $request, $uid, $pid)
+    {
+        $user = User::find($uid);
+
+        if (! $user) {
+            return response()->json([
+                    'message' => 'user_does_not_exist'
+            ]);
+        }
+
+        $permissions = (new Permission())->getPermissionsForUser($user['id']);
+
+        foreach ($permissions as $permission) {
+            if (($permission->permission_id) == $pid)
+                return response()->json([
+                    'message' => 'user_has_permission',
+                    'permission' => $permission->name
+                ]);
+        }
+        
+        return response()->json([
+                    'message' => 'user_doesnt_have_permission'
+        ]);
     }
 
 }
