@@ -8,6 +8,7 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use App\User;
 use App\Permission;
 use App\Http\Middleware\Providers\AllGoodPermissionProvider;
+use App\Http\Middleware\Providers\ExamplePermissionProvider;
 use App\Http\Middleware\Providers\PermissionProviderInterface;
 
 
@@ -24,7 +25,7 @@ class PermissionsMiddleware
         $user = $token->authenticate();
         $permission = new Permission();
         $userPermissions = $permission->getPermissionsForUser($user->id);
-        $permissionProvider = new AllGoodPermissionProvider();
+        $permissionProvider = new ExamplePermissionProvider();
 
         if (env('API_USE_PERMISSION_PROVIDER') == true)
         {
