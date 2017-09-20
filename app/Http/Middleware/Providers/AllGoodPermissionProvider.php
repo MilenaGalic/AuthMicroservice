@@ -8,9 +8,9 @@ class AllGoodPermissionProvider implements PermissionProviderInterface
 	{
 		return true;
 	}
-	public function isPermitted($uri, $permissions) 
+	public function isPermitted($userPermissions, $request, $next) 
 	{
-		return true;
+		return $next($request);
 	}
 	public function requiresPermissions($uri) 
 	{

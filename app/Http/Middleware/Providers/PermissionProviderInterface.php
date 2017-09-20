@@ -19,6 +19,6 @@ interface PermissionProviderInterface
     const PATCH   = 'PATCH';
 
 	public function getAccessList();
-	public function isPermitted($uri, $permissions);
+	public function isPermitted($userPermissions, $request, $next);
 	public function requiresPermissions($uri);
 }

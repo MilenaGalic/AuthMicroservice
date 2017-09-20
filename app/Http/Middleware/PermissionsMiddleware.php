@@ -22,13 +22,11 @@ class PermissionsMiddleware
         $method = $request->method();
         $token = JWTAuth::parseToken();
         $user = $token->authenticate();
-
         $permission = new Permission();
         $userPermissions = $permission->getPermissionsForUser($user->id);
-
         $permissionProvider = new AllGoodPermissionProvider();
 
-        if (env('API_USE_PERMISSION_PROVIDER'))
+        if (env('API_USE_PERMISSION_PROVIDER') == true)
         {
             return $permissionProvider->isPermitted($userPermissions, $request, $next);
         }
