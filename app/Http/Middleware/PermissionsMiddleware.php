@@ -6,8 +6,10 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use App\User;
+use App\Permission;
 use App\Http\Middleware\Providers\AllGoodPermissionProvider;
 use App\Http\Middleware\Providers\PermissionProviderInterface;
+
 
 use Closure;
 
@@ -20,37 +22,35 @@ class PermissionsMiddleware
         $method = $request->method();
         $token = JWTAuth::parseToken();
         $user = $token->authenticate();
-        $userPermissions = true;
+
+        $permission = new Permission();
+        $userPermissions = $permission->getPermissionsForUser($user->id);
 
         $permissionProvider = new AllGoodPermissionProvider();
 
+        if (env('API_USE_PERMISSION_PROVIDER'))
+        {
+            return $permissionProvider->isPermitted($userPermissions, $request, $next);
+        }
+
         switch ($method) {
             case PermissionProviderInterface::GET: 
-                if (! $permissionProvider->isPermitted($uri, $userPermissions)) {
-                    return $this->accessNotAllowedDefaultResponse();
-                }
                 return $this->permissionsHandlerGET($uri, $user, $request, $next);
             break;
             case PermissionProviderInterface::POST: 
-                if (! $permissionProvider->isPermitted($uri, $userPermissions)) {
-                    return $this->accessNotAllowedDefaultResponse();
-                }
                 return $this->permissionsHandlerPOST($uri, $user, $request, $next);
             break;
             case PermissionProviderInterface::PATCH: 
-                if (! $permissionProvider->isPermitted($uri, $userPermissions)) {
-                    return $this->accessNotAllowedDefaultResponse();
-                }
                 return $this->permissionsHandlerPATCH($uri, $user, $request, $next);
             break;
             case PermissionProviderInterface::DELETE: 
-                if (! $permissionProvider->isPermitted($uri, $userPermissions)) {
-                    return $this->accessNotAllowedDefaultResponse();
-                }
                 return $this->permissionsHandlerDELETE($uri, $user, $request, $next);
             break;
-
+            default:
+                return $this->accessNotAllowedDefaultResponse();
+            break;
         }
+
         return $next($request);
     }
 
@@ -62,11 +62,11 @@ class PermissionsMiddleware
     }
 
     public function permissionsHandlerGET($uri, $user, $request, $next) {
-        // custom GET handlers
+        return $next($request);
     }
 
     public function permissionsHandlerPOST($uri, $user, $request, $next) {
-        // custom POST handlers
+        return $next($request);
     }
 
     public function permissionsHandlerPATCH($uri, $user, $request, $next) {
@@ -84,7 +84,7 @@ class PermissionsMiddleware
     }
 
     public function permissionsHandlerDELETE($uri, $user, $request, $next) {
-        // custom POST handlers
+        return $next($request);
     }
 
 }
